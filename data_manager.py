@@ -7,7 +7,7 @@ class Data:
     '''该类提供对于已处理的字典的截取，检索和输出
     除特定条件外，输出结果均为Series
     本类中提供变量：ClassName=Data(df) -> ClassName.series
-    使输出切片时相多者符合同一性
+    使输出切片时多者符合同一性
     '''
     def __init__(self,df):
         self.df=df
