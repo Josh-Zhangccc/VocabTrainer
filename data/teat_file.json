@@ -1,0 +1,41 @@
+{
+  "users": {
+    "test_user": {
+      "name": "test_user",
+      "key": "test_password",
+      "created_time": "2025-10-28T15:27",
+      "last_load_time": "2025-10-28T15:27"
+    }
+  },
+  "user_information": {
+    "test_user": {
+      "learned_words": {
+        "123": {
+          "time": [
+            "2025-10-28T15:27"
+          ],
+          "times": 1,
+          "mastery_level": [
+            1
+          ]
+        }
+      },
+      "mastered_words": [
+        123
+      ],
+      "star_words": [
+        123
+      ],
+      "high_focus_words": [],
+      "preferences": {
+        "daily_words": 10,
+        "background": "dark",
+        "frequency": 1,
+        "review_mode": "M"
+      }
+    }
+  },
+  "version": 1.0,
+  "created_time": "2025-10-28T15:27",
+  "last_update_time": "2025-10-28T15:27"
+}
