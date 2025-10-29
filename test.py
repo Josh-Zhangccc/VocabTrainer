@@ -4,7 +4,7 @@ import os
 import random
 from data_manager import *
 from utils import df
-from json_utils import JsonManager
+from json_utils import *
 from config import FILES
 
 Df=Data(df)
@@ -46,27 +46,27 @@ def test_json_manager():
     
     try:
         # 创建管理器
-        manager = JsonManager(test_file)
+        manager = UserManager('test_user')
         
         # 测试创建账户
-        result = manager.create_new_account("test_user", "test_password")
-        print(f"创建新用户结果: {result}")  # 应该是 False（创建成功）
+        #result = manager.create_new_account("test_user", "test_password")
+        #print(f"创建新用户结果: {result}")  # 应该是 False（创建成功）
         
         # 测试重复创建
-        result = manager.create_new_account("test_user", "test_password")
-        print(f"重复创建用户结果: {result}")  # 应该是 True（用户已存在）
+        #result = manager.create_new_account("test_user", "test_password")
+        #print(f"重复创建用户结果: {result}")  # 应该是 True（用户已存在）
         
         # 测试记录单词
-        manager.record_word("test_user", 123, 1)
+        manager.record_word( 123, 1)
         
         # 测试掌握单词
-        manager.mastered_word_record("test_user", 123)
-        manager.star_word_record("test_user", 123)
+        manager.mastered_word_record( 123)
+        manager.star_word_record(123)
 
         #测试关注重点单词
-        manager.foucus_word_update('test_user')
+        manager.focus_word_update()
         
-        print(manager.output('test_user','learned'))
+        print(manager.output('learned'))
         # 测试保存
         save_result = manager.save_json()
         print(f"保存结果: {save_result}")
@@ -82,4 +82,5 @@ def test_json_manager():
             
 
 if __name__=='__main__':
+    #print(test_df())
     test_json_manager()

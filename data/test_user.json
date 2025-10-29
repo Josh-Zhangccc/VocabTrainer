@@ -1,0 +1,29 @@
+{
+  "learned_words": {
+    "123": {
+      "time": [
+        "2025-10-29T16:38"
+      ],
+      "times": 1,
+      "mastery_level": [
+        1
+      ]
+    }
+  },
+  "mastered_words": [
+    123
+  ],
+  "star_words": [
+    123
+  ],
+  "high_focus_words": [],
+  "preferences": {
+    "daily_words": 10,
+    "background": "dark",
+    "frequency": 1,
+    "review_mode": "M"
+  },
+  "login_time": [
+    "2025-10-29T16:38"
+  ]
+}
