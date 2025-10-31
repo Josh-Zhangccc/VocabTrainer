@@ -21,6 +21,7 @@ VocabTrainer/
 ├── json_utils.py        # 用户数据JSON管理
 ├── utils.py             # 工具函数和初始化
 ├── test.py              # 功能测试脚本
+├── login.py             # 登录和注册界面
 └── data/
     ├── IELTS_2.json     # IELTS词库数据
     └── *.json           # 用户数据保存文件
