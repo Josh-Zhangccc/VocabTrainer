@@ -43,9 +43,9 @@ VocabTrainer/
 pip install pandas PySide6
 ```
 [^1]: 在以下几个文件中使用了 match/case：
-data_manager.py - search_word() 方法
-json_utils.py - foucus_word_update() 方法
-json_utils.py - output() 方法
+data_manager.py - search_word()
+json_utils.py - foucus_word_update() 方法 output()
+login.py - LoginWindow - judge_login() 方法 RegisterWindow - on_register_clicked()
 如果版本低于python 3.10，需要修改match/case为if/elif/else
 
 
@@ -68,7 +68,7 @@ python main.py
 
 
 ## 🔧 自定义配置
-
+（目前还没有完成个性化推送的功能😅）
 在 `config.py` 中可以调整程序设置：
 
 ```python
@@ -134,7 +134,7 @@ python test.py
 
 
 ### 🔳 UI界面设计
-目前的程序仅通过pyside去完成UI界面的交互，并且仅部分没有加入`./json_utils.py`的用户管理功能，预计将在后续跟进🎫
+目前的程序仅通过pyside去完成UI界面的交互
 
 ## 🔮 未来计划
 
