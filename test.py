@@ -37,48 +37,48 @@ def test_df():
             return f'出错如下：{E}'
         
 def test_json_manager():
+    AM=AccountsManager()
+
     # 使用临时文件进行测试
     test_file = FILES['SAVE']['test']
     
     # 清理可能存在的测试文件
     if os.path.exists(test_file):
         os.remove(test_file)
-    
-    try:
-        # 创建管理器
-        manager = UserManager('test_user')
-        
-        # 测试创建账户
-        #result = manager.create_new_account("test_user", "test_password")
-        #print(f"创建新用户结果: {result}")  # 应该是 False（创建成功）
-        
-        # 测试重复创建
-        #result = manager.create_new_account("test_user", "test_password")
-        #print(f"重复创建用户结果: {result}")  # 应该是 True（用户已存在）
-        
-        # 测试记录单词
-        manager.record_word( 123, 1)
-        
-        # 测试掌握单词
-        manager.mastered_word_record( 123)
-        manager.star_word_record(123)
+    if AM.check_user('test_user'):
+        try:
+            # 创建管理器
+            manager = UserManager('test_user')
+            
+            
+            # 测试记录单词
+            manager.record_word( 123, 1)
+            
+            # 测试掌握单词
+            manager.mastered_word_record( 123)
+            manager.star_word_record(123)
 
-        #测试关注重点单词
-        manager.focus_word_update()
-        
-        print(manager.output('learned'))
-        # 测试保存
-        save_result = manager.save_json()
-        print(f"保存结果: {save_result}")
-        
-        print("所有测试通过！")
-        
-    except Exception as e:
-        print(f"测试失败: {e}")
-    '''finally:
-        # 清理测试文件
-        if os.path.exists(test_file):
-            os.remove(test_file)'''
+            #测试关注重点单词
+            manager.focus_word_update()
+            
+            print(manager.output('learned'))
+            # 测试保存
+            save_result = manager.save_json()
+            print(f"保存结果: {save_result}")
+            
+            print("所有测试通过！")
+            
+        except Exception as e:
+            print(f"测试失败: {e}")
+        '''finally:
+            # 清理测试文件
+            if os.path.exists(test_file):
+                os.remove(test_file)'''
+    else:
+        print('用户不存在')
+        AM.create_new_account('test_user','123456')
+        AM.save_json()
+        UserManager('test_user')
             
 
 if __name__=='__main__':

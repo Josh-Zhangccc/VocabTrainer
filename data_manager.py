@@ -110,7 +110,9 @@ class Data:
                     
                 case 'fuzzy':
                     df_search = self.df[self.df['word'].str.contains(word)]
-                    if len(df_search) == 1:
+                    if len(df_search) == 0:  # 添加空结果检查
+                        return None
+                    elif len(df_search) == 1:
                         self.series=df_search.iloc[0]
                         return df_search.iloc[0]
                     else:
@@ -119,8 +121,10 @@ class Data:
                 case 'first fuzzy':
                     # 先根据首字母缩小搜索范围
                     df_first_letter = self.first_letter_divide(word[0])
-                    df_search = self.df[self.df['word'].str.contains(word)]  # 修正：在缩小范围后的数据中搜索
-                    if len(df_search) == 1:
+                    df_search = df_first_letter[df_first_letter['word'].str.contains(word)]  # 修正：在缩小范围后的数据中搜索
+                    if len(df_search) == 0:  # 添加空结果检查
+                        return None
+                    elif len(df_search) == 1:
                         self.series=df_search.iloc[0]
                         return df_search.iloc[0]
                     else:

@@ -47,6 +47,7 @@ class AccountsManager(JsonManager):
     '''
     def __init__(self):
         super().__init__(FILES['SAVE']['accounts'],glob_stru)
+        self.save_json()
            
     def create_new_account(self,user_id: str,user_key)-> bool:
         """创建一个新的用户，并自动更新用户信息
@@ -74,21 +75,29 @@ class AccountsManager(JsonManager):
                 return False
         else:
             return True
-        
-    def check_key(self,user_id,user_key):
-        key=self.data['users'][user_id]['key'] # str
-        if not isinstance(user_key,str):
-            user_key=str(user_key)
-        if user_key==key:
+    
+    def check_user(self,user_id):
+        '''检索用户是否存在，符合返回True,否则返回False
+        '''
+        if user_id in self.data['users']:
             return True
         else:
             return False
         
     def login(self,user_id,user_key):
-        if self.check_key(user_id,user_key):
-            return True
+        '''输入用户id和密码，如果符合的话返回True,否则返回False
+        '''
+        if self.check_user(user_id):
+            key=self.data['users'][user_id]['key'] # str
+            if not isinstance(user_key,str):
+                user_key=str(user_key)
+            if user_key==key:
+                return True
+            else:
+                return False
         else:
             return False
+        
         
 class UserManager(JsonManager):
     '''UM=UserManager(user_id)
@@ -100,6 +109,7 @@ class UserManager(JsonManager):
         user_data_path = os.path.join(current_dir, 'data',f'{user_id}.json')
         super().__init__(user_data_path,user_stru)
         self.user_id=user_id
+        self.save_json()
         
     def indiviualize(self,daily_word:int,frequency:int,review_mode:str,background:str) ->None:
         if (daily_word>0,

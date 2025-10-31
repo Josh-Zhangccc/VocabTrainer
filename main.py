@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
             return
 
         series=self.df.search_word(w,'first match')
-        if series==None:
+        if series is None:
             self.label_word.setText(f'未找到包含{w}的单词，请确认拼写正确或尝试不同词性')
             self.label_details.setText("")
         else:
