@@ -133,7 +133,7 @@ python test.py
 
 
 ### 🔳 UI界面设计
-目前的程序仅通过pyside去完成UI界面的交互，并且还没有加入`./json_utils.py`的用户管理功能，预计将在后续跟进🎫
+目前的程序仅通过pyside去完成UI界面的交互，并且仅部分没有加入`./json_utils.py`的用户管理功能，预计将在后续跟进🎫
 
 ## 🔮 未来计划
 
@@ -145,15 +145,15 @@ python test.py
 - [ ] 添加单词测验功能
 - [ ] 优化UI界面
 
-## 🤝 贡献
-
-欢迎提交Issue和Pull Request来帮助改进这个项目！
-
 ## 📄 许可证
 
 本项目采用MIT许可证。
 
-## 🤝 贡献指南
+## 🤝 贡献
+
+欢迎提交Issue和Pull Request来帮助改进这个项目！
+
+### 贡献指南
 
 1. Fork 本仓库
 2. 创建特性分支：`git checkout -b feature/YourFeature`
