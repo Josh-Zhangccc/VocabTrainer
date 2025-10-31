@@ -18,7 +18,8 @@ class Data:
                   'synos':3,
                   'phrases':4,
                   'rels':5,
-                  'firstletter':6
+                  'trans':6,
+                  'firstletter':7
                   }
         self.dic = {'1': 'a','2': 'b','3': 'c',
                     '4': 'd','5': 'e','6': 'f',
@@ -182,6 +183,13 @@ class Data:
                     parts.append(f"{j.get('hwd','')}---{j.get('tran','')}")
             output = "\n".join(parts)
 
+        elif column =='trans':
+            parts=[]
+            if res is None:
+                return ''
+            for i in res:
+                parts.append(f"{i.get('pos','')}---{i.get('tranCn','')}")
+                output = "\n".join(parts)
         else:
             output = str(res)
 
@@ -216,12 +224,25 @@ class Data:
         else:
             return self.series['word']
         
+    def get_rw_besides(self,lis:list,get_word=False) ->pd.Series:
+        '''输入一个每项是数字的列表，返回在self.df中除了该列表外的随机一个单词的Series'''
+        def fun(lis):
+                index=random.randint(0,len(self.df)-1)
+                if index in lis:
+                    fun()
+                return index
+        index=fun(lis)
+        self.series=self.search_coordinate(index)
+        if not get_word:
+            return self.series
+        else:
+            return self.series['word']
     
     def get_details(self,content)->str:
         '''在handle的基础上增加了‘all’的输出'''
         if content=='all':
             output=''
-            for i in['sentences','synos','phrases','rels']:
+            for i in['sentences','synos','phrases','rels','trans']:
                 output+=f'\n\n{i}:'+f'{Data.handle(self.series,i)}'
             return output
         else:

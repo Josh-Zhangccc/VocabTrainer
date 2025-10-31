@@ -13,7 +13,7 @@ def test_df():
     try:
         try:
             n=random.randint(0,len(df))
-            Df.search_coordinate(n)
+            print(Df.search_coordinate(1))
         except:
             raise 'search_coordinate出错'
         try:
@@ -21,11 +21,11 @@ def test_df():
         except:
             raise 'search_word出错'
         try:
-            Df.get_random_word()
+            print(Df.get_random_word())
         except:
             raise 'get_random_word出错'
         try:
-            Df.get_details('all')
+            print(Df.get_details('all'))
         except:
             raise 'get_drtails出错'
     except Exception as e:
@@ -82,5 +82,6 @@ def test_json_manager():
             
 
 if __name__=='__main__':
-    #print(test_df())
-    test_json_manager()
+    print(test_df())
+    print(df.head())
+    #test_json_manager()

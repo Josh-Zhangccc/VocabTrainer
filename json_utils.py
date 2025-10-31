@@ -6,6 +6,8 @@ import os
 from datetime import datetime
 from file_utils import test_form,open_fuc
 from config import *
+from data_manager import Data
+
 class JsonManager:
     """初始化储存用户信息的JSON文件。
     jm=JsonManager(file_path,stru)
@@ -98,8 +100,7 @@ class AccountsManager(JsonManager):
                 return False
         else:
             return False
-        
-        
+       
 class UserManager(JsonManager):
     '''UM=UserManager(user_id)
     管理单个用户具体信息的方法
@@ -123,6 +124,9 @@ class UserManager(JsonManager):
             p['background']=background
             p['frequency']=frequency
             p['review_mode']=review_mode
+
+    def choose_dic(self):
+        pass
 
     def record_word(self, wordrank: int, rank: int) -> None:
         """用途：记录已经学习过的单词,同时记录:学习的次数,
@@ -200,6 +204,9 @@ class UserManager(JsonManager):
         self.data['login_time'].append(datetime.now().isoformat()[0:16])
 
     def output(self,content:str) -> list:
+        '''content:'learned','mastered','star','focus'
+        返回用户对应的数据，形式为列表
+        '''
         user_info=self.data
         match content:
             case 'learned':
@@ -211,6 +218,12 @@ class UserManager(JsonManager):
                 return user_info['mastered_words']
             case 'star':
                 return user_info['star_words']
+            case 'focus':
+                return user_info['high_focus_words']
             case _:
                 return []
+
+    def learn(self) -> str:
+        words=self.output('learned') #list
+
 

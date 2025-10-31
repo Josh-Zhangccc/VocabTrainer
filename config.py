@@ -7,7 +7,9 @@ preferences={'daily_words':10,
             }
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-FILES={'DICT':{'IELTS':os.path.join(current_dir,'data','IELTS_2.json')
+FILES={'DICT':{'IELTS':os.path.join(current_dir,'data','dict','IELTS.json'),
+               'GRE':os.path.join(current_dir,'data','dict','GRE.json'),
+               'TOEFL':os.path.join(current_dir,'data','dict','TOEFL.json')
                },
        'SAVE':{'test':os.path.join(current_dir,'data','test_file.json'),
                'accounts':os.path.join(current_dir,'data','accounts.json')

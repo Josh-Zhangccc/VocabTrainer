@@ -14,8 +14,7 @@ os.chdir(current_dir)
 
 print(f"现在工作目录是：{os.getcwd()}")
 
-file_path=FILES['DICT']['IELTS']
+file_path=FILES['DICT']['TOEFL']
 
-df = load_data(file_path)
-
+df = load_data(file_path,'TOEFL')
 #如果使用其他文档，可能需要更改df的目录以及global_methods中的handle函数
