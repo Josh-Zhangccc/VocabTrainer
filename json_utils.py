@@ -1,5 +1,6 @@
 #json_utils.py
-'''提供JsonManager类去创建json文件以储存、调用用户信息'''
+'''提供JsonManager类去创建json文件以储存、调用用户信息
+注意！所有的函数都没有自动保存的功能，轻调用save_json()手动设置保存时机'''
 import json
 import os
 from datetime import datetime

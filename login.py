@@ -40,6 +40,7 @@ class LoginWindow(QWidget):
         self.setLayout(layout)
 
         self.button_confirm.clicked.connect(self.on_confirm_clicked)
+        self.button_register.clicked.connect(self.on_register_cilcked)
 
 
 
@@ -103,6 +104,86 @@ class LoginWindow(QWidget):
             self.input_user_id.setPlaceholderText('试错超过三次！禁止进入')
             time.sleep(3)
             self.close()
+
+    def on_register_cilcked(self):
+        self.register_window=RegisterWindow()
+        self.register_window.show()
+        self.close()
+
+class RegisterWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        
+        self.setWindowTitle('登录')
+        self.setGeometry(500,300,400,350)
+
+        self.input_user_id=QLineEdit()
+        self.input_user_id.setPlaceholderText('请输入您的用户名：')
+
+        self.input_user_key=QLineEdit()
+        self.input_user_key.setPlaceholderText('请输入您的密码：')
+        #self.input_user_key.setEchoMode(QLineEdit.Password)
+
+        self.input_confirm_key=QLineEdit()
+        self.input_confirm_key.setPlaceholderText('请确认您的密码：')
+        #self.input_confirm_key.setEchoMode(QLineEdit.Password)
+
+        self.button_register=QPushButton()
+        self.button_register.setText('注册')
+
+        layout=QVBoxLayout()
+
+        layout.addWidget(self.input_user_id)
+        layout.addWidget(self.input_user_key)
+        layout.addWidget(self.input_confirm_key)
+        layout.addWidget(self.button_register)
+
+        self.setLayout(layout)
+
+        self.button_register.clicked.connect(self.on_register_clicked)
+    
+
+    def on_register_clicked(self):
+        id = str(self.input_user_id.text()).strip()
+        key= str(self.input_user_key.text()).strip()
+        _key= str(self.input_confirm_key.text()).strip()
+
+        a=(id=='')
+        b=(key=='')
+        c=(_key=='')
+        identical=(key==_key)
+
+        match (a,b,c):
+            case (True,False,False):
+                QMessageBox.information(self,'ATTENTION','请输入用户名')
+            case (False,True,True) :
+                QMessageBox.warning(self,'Warning',"请输入密码")                
+            case (False,False,True):
+                QMessageBox.information(self,'ATTENTION','请核验密码')  
+            case (False,False,False):
+                if identical==True:
+                    if AM.create_new_account(id,key):
+                        self.input_user_id.setPlaceholderText('用户名已存在！')
+                        self.input_user_id.clear()
+                    else:
+                        self.button_register.setText('注册成功')
+                        AM.save_json()
+                        from PySide6.QtCore import QTimer
+                        QTimer.singleShot(3000, self.close)
+                        self.open_main()
+                else:
+                    self.input_confirm_key.clear()
+                    self.input_user_key.clear()
+                    QMessageBox.warning(self,'Warning','请确保两次密码输入一致！')
+            case _:
+                QMessageBox.information(self,'ATTENTION','请输入完整信息')
+
+
+    def open_main(self):
+        self.main_window = MainWindow(df)
+        self.main_window.show()
+        self.close()
+
 
 
 
