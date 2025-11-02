@@ -15,7 +15,8 @@ from PySide6.QtCore import Qt
 class MainWindow(QMainWindow):
     def __init__(self,user_id:str,dic:str):
         super().__init__()
-        self.UM=UserManager(user_id,dic)
+        self.user_id=user_id
+        self.UM=UserManager(self.user_id,dic)
         df=open(dic)
         self.df=Data(df)
         self.series=None
@@ -41,13 +42,14 @@ class MainWindow(QMainWindow):
 
         #布局
         layout=QVBoxLayout()
+        layout.addWidget(self.search_input);self.search_input.setVisible(False)        
         layout.addWidget(self.button_start)
         layout.addWidget(self.label_word)
         layout.addWidget(self.button_next);self.button_next.setVisible(False)
         layout.addWidget(self.back_button);self.back_button.setVisible(False)
         layout.addWidget(self.button_show_details);self.button_show_details.setVisible(False)
         layout.addWidget(self.label_details)
-        layout.addWidget(self.search_input);self.search_input.setVisible(False)
+
 
         container=QWidget()
         container.setLayout(layout)
@@ -118,6 +120,12 @@ class MainWindow(QMainWindow):
             self.details=self.df.get_details('all')
             self.label_details.setText(self.details)
 
+    def switch(self,dic:str):
+        if dic in ['IELTS','TOEFL']:
+            self.UM=UserManager(self.user_id,dic)
+            self.df=Data(open(dic))
+
+
     def create_menus(self):
         menu_bar=self.menuBar()
         functions=menu_bar.addMenu('功能')
@@ -132,7 +140,15 @@ class MainWindow(QMainWindow):
 
         functions.addActions([action_search,action_learn])
 
+        dics=menu_bar.addMenu('切换字典')
 
+        action_IELTS=QAction('IELTS',self)
+        action_IELTS.triggered.connect(lambda: self.switch('IELTS'))
+
+        action_TOEFL=QAction('TOEFL',self)
+        action_TOEFL.triggered.connect(lambda: self.switch('TOEFL'))
+
+        dics.addActions([action_IELTS,action_TOEFL])
 if __name__=='__main__':
     app=QApplication(sys.argv)
     window=MainWindow('test_user','IELTS')

@@ -242,7 +242,7 @@ class Data:
         '''在handle的基础上增加了‘all’的输出'''
         if content=='all':
             output=''
-            for i in['sentences','synos','phrases','rels','trans']:
+            for i in['trans','sentences','synos','phrases','rels']:
                 output+=f'\n\n{i}:'+f'{Data.handle(self.series,i)}'
             return output
         else:
