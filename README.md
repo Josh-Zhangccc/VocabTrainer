@@ -23,8 +23,12 @@ VocabTrainer/
 ├── test.py              # 功能测试脚本
 ├── login.py             # 登录和注册界面
 └── data/
-    ├── IELTS_2.json     # IELTS词库数据
-    └── *.json           # 用户数据保存文件
+    ├──accounts.json     # 总用户数据存储文件
+    ├── *.json           # 单个用户数据保存文件
+    └──dict/
+        ├── IELTS.json     # IELTS词库数据
+        └── TOEFL.json
+
 ```
 ## 🛠️ 技术栈
 
