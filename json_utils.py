@@ -107,9 +107,18 @@ class UserManager(JsonManager):
     提供个性化服务，已学、掌握、标记单词的添加和删除方法，重点单词的确定逻辑和
     输出用户具体信息的方法
     '''
-    def __init__(self,user_id):
+    def __init__(self,user_id:str,dic:str):
         user_data_path = os.path.join(current_dir, 'data',f'{user_id}.json')
+        self.dic=dic
         super().__init__(user_data_path,user_stru)
+        if dic not in self.data['dic']:
+            self.data['dic'][f'{self.dic}']={
+                                            'learned_words':{},
+                                            'mastered_words':[],
+                                            'star_words':[],
+                                            'high_focus_words':[]
+                                                }
+        self.info=self.data['dic'][self.dic]
         self.user_id=user_id
         self.save_json()
         
@@ -124,6 +133,7 @@ class UserManager(JsonManager):
             p['background']=background
             p['frequency']=frequency
             p['review_mode']=review_mode
+            print(self.data['preferences'])
 
     def choose_dic(self):
         pass
@@ -133,13 +143,13 @@ class UserManager(JsonManager):
                                             第一次和最后一次学习的时间,
                                             以及自我评价的等级（0——5）"""
         
-        if not isinstance(self.data['learned_words'], dict):
-            self.data['learned_words'] = {}
+        if not isinstance(self.info['learned_words'], dict):
+            self.info['learned_words'] = {}
         
-        learned_words = self.data['learned_words']
-        
+        learned_words = self.info['learned_words']
+        wordrank=str(wordrank)
         if wordrank not in learned_words.keys():
-            learned_words[wordrank] = {
+            learned_words[f'{wordrank}'] = {
                 'time': [datetime.now().isoformat()[0:16]],
                 'times': 1,
                 'mastery_level': [rank]
@@ -150,22 +160,22 @@ class UserManager(JsonManager):
             learned_words[wordrank]['mastery_level'].append(rank)
 
     def mastered_word_record(self,workrank:int) -> None:
-        lis=self.data['mastered_words']
+        lis=self.info['mastered_words']
         if workrank not in lis:
             lis.append(workrank)
 
     def mastered_word_remove(self,workrank:int) -> None:
-        lis=self.data['mastered_words']
+        lis=self.info['mastered_words']
         if workrank in lis:
             lis.remove(workrank)
 
     def star_word_record(self,workrank:int) -> None:
-        lis=self.data['star_words']
+        lis=self.info['star_words']
         if workrank not in lis:
             lis.append(workrank)
 
     def star_word_remove(self,workrank:int) -> None:
-        lis=self.data['star_words']
+        lis=self.info['star_words']
         if workrank in lis:
             lis.remove(workrank)
 
@@ -174,11 +184,11 @@ class UserManager(JsonManager):
         用途：根据不同的逻辑关注已学习但是需要复习的单词'''
         
         mode= self.data['preferences']['review_mode'] #str
-        words=self.data['learned_words'] #dict
-        focus=self.data['high_focus_words'] #list
+        words=self.info['learned_words'] #dict
         focus=[]
         print(mode,words,focus)
-        for wordrank,information in words.items(): #wordrank:int,inforamtion:dict
+        for wordrank,information in words.items(): #wordrank:str,inforamtion:dict
+            wordrank=int(wordrank)
             rank=information['mastery_level']#list
             match mode:
                 case 'L':
@@ -199,6 +209,10 @@ class UserManager(JsonManager):
                         focus.append(wordrank)
                 case _:
                     pass
+        self.info['high_focus_words'].clear()
+        self.info['high_focus_words']=focus
+        print(focus)
+
     
     def time_record(self):
         self.data['login_time'].append(datetime.now().isoformat()[0:16])
@@ -207,7 +221,7 @@ class UserManager(JsonManager):
         '''content:'learned','mastered','star','focus'
         返回用户对应的数据，形式为列表
         '''
-        user_info=self.data
+        user_info=self.info
         match content:
             case 'learned':
                 words=[]

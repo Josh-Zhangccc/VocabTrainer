@@ -1,6 +1,7 @@
 import pandas as pd
 from  data_manager import *
-from utils import df
+from utils import open
+from json_utils import UserManager
 import sys
 from PySide6.QtWidgets import (QApplication, QMainWindow, 
                                QPushButton, QLabel, QVBoxLayout, 
@@ -12,10 +13,13 @@ from PySide6.QtCore import Qt
 
 
 class MainWindow(QMainWindow):
-    def __init__(self,df):
+    def __init__(self,user_id:str,dic:str):
         super().__init__()
+        self.UM=UserManager(user_id,dic)
+        df=open(dic)
         self.df=Data(df)
         self.series=None
+        self.learned=self.UM.output('learned') #list
         self.setWindowTitle('主页')
         self.setGeometry(250,150,1000,725)
 
@@ -73,13 +77,15 @@ class MainWindow(QMainWindow):
         
 
     def on_click_start_button(self):
-        series=self.df.get_random_word()
+        series=self.df.get_rw_besides(self.learned)
         word=series['word']
         self.label_word.setText(f'单词：{word}')
         self.button_start.deleteLater()
         self.button_next.setVisible(True)
         self.button_show_details.setVisible(True)
-
+        self.learned.append(series['wordrank']-1)
+        self.UM.record_word(series['wordrank']-1,3)#暂时设定为3，后续再改
+        self.UM.save_json()
     def on_cilck_sdb(self):
         details=self.df.get_details('all')
         self.label_details.setText(f'详细：{details}')
@@ -88,9 +94,13 @@ class MainWindow(QMainWindow):
     def on_click_next_button(self):
         self.label_details.setText('')
         self.label_word.setText('')
-        series=self.df.get_random_word()
+        series=self.df.get_rw_besides(self.learned)
         word=series['word']
         self.label_word.setText(f'单词：{word}')
+        self.learned.append(series['wordrank']-1)
+        self.UM.record_word(series['wordrank']-1,3)#暂时设定为3，后续再改
+        self.UM.save_json()
+
 
     def on_submit_clicked(self):
         w = str(self.search_input.text()).strip()
@@ -125,6 +135,6 @@ class MainWindow(QMainWindow):
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
-    window=MainWindow(df)
+    window=MainWindow('test_user','IELTS')
     window.show()
     sys.exit(app.exec())

@@ -26,11 +26,14 @@ glob_stru={
                         'learned_words':0
                                         }'''
 
-user_stru={
-            'learned_words':{},
-            'mastered_words':[],
-            'star_words':[],
-            'high_focus_words':[],
+user_stru={ 'dic':{},
             'preferences':preferences,
             'login_time':[datetime.now().isoformat()[0:16]]
         }
+
+
+'''            'learned_words':{},
+            'mastered_words':[],
+            'star_words':[],
+            'high_focus_words':[],
+'''

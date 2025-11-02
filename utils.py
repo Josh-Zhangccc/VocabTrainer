@@ -6,15 +6,16 @@
 from file_utils import load_data
 from config import FILES
 import os
+def open(dic:str):
+    # 获取当前脚本所在的目录
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # 将工作目录设置为脚本所在目录
+    os.chdir(current_dir)
 
-# 获取当前脚本所在的目录
-current_dir = os.path.dirname(os.path.abspath(__file__))
-# 将工作目录设置为脚本所在目录
-os.chdir(current_dir)
+    print(f"现在工作目录是：{os.getcwd()}")
 
-print(f"现在工作目录是：{os.getcwd()}")
+    file_path=FILES['DICT'][dic]
 
-file_path=FILES['DICT']['TOEFL']
-
-df = load_data(file_path,'TOEFL')
-#如果使用其他文档，可能需要更改df的目录以及global_methods中的handle函数
+    df = load_data(file_path,dic)
+    return df
+    #如果使用其他文档，可能需要更改df的目录以及global_methods中的handle函数

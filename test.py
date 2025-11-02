@@ -48,14 +48,15 @@ def test_json_manager():
     if AM.check_user('test_user'):
         try:
             # 创建管理器
-            manager = UserManager('test_user')
+            manager = UserManager('test_user','TOEFL')
             
+            manager.indiviualize(20,2,'L','dark')
             
             # 测试记录单词
-            manager.record_word( 123, 1)
+            manager.record_word(123,1)
             
             # 测试掌握单词
-            manager.mastered_word_record( 123)
+            manager.mastered_word_record(123)
             manager.star_word_record(123)
 
             #测试关注重点单词
@@ -84,4 +85,4 @@ def test_json_manager():
 if __name__=='__main__':
     print(test_df())
     print(df.head())
-    #test_json_manager()
+    test_json_manager()

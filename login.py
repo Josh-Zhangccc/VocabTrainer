@@ -9,7 +9,6 @@ from PySide6.QtGui import QAction, QIcon
 from PySide6.QtCore import Qt
 from json_utils import JsonManager,AccountsManager,UserManager
 from main import MainWindow
-from utils import df
 import time
 AM=AccountsManager()
 
@@ -45,10 +44,10 @@ class LoginWindow(QWidget):
 
 
     def judge_login(self):
-        id = str(self.input_user_id.text()).strip()
-        key= str(self.input_user_key.text()).strip()
-        a=(id=='')
-        b=(key=='')
+        self.id = str(self.input_user_id.text()).strip()
+        self.key= str(self.input_user_key.text()).strip()
+        a=(self.id=='')
+        b=(self.key=='')
 
         match (a,b):
             case (True,True):
@@ -59,12 +58,12 @@ class LoginWindow(QWidget):
             case (False,True):
                 self.input_user_key.setPlaceholderText('密码不能为空')
             case (False,False):
-                if AM.login(id,key):
+                if AM.login(self.id,self.key):
                     print('成功登录')
                     return True
                 else:
                     print('登录失败')
-                    if not AM.check_user(id):
+                    if not AM.check_user(self.id):
                         self.input_user_id.setPlaceholderText('用户名不存在')
                         self.input_user_id.clear()
                         self.input_user_key.setPlaceholderText('请输入您的密码：')
@@ -75,17 +74,16 @@ class LoginWindow(QWidget):
                         self.input_user_key.clear()
                         return False
                     
-    def open_main(self):
-        self.main_window = MainWindow(df)
-        self.main_window.show()
-        self.close()
 
     def on_confirm_clicked(self):
         # 直接进行登录验证，不需要循环和递归
         res = self.judge_login()
         
         if res:
-            self.open_main()
+            self.main_window = MainWindow(self.id,'IELTS')
+            self.main_window.show()
+            self.close()
+
         else:
             self.login_time += 1
             print(f'尝试第 {self.login_time} 次')
@@ -170,7 +168,10 @@ class RegisterWindow(QWidget):
                         AM.save_json()
                         from PySide6.QtCore import QTimer
                         QTimer.singleShot(3000, self.close)
-                        self.open_main()
+                        self.main_window = MainWindow(id,'IELTS')
+                        self.main_window.show()
+                        self.close()
+
                 else:
                     self.input_confirm_key.clear()
                     self.input_user_key.clear()
@@ -179,10 +180,6 @@ class RegisterWindow(QWidget):
                 QMessageBox.information(self,'ATTENTION','请输入完整信息')
 
 
-    def open_main(self):
-        self.main_window = MainWindow(df)
-        self.main_window.show()
-        self.close()
 
 
 
