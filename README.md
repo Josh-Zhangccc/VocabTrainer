@@ -27,7 +27,7 @@ VocabTrainer/
     ├── *.json           # 单个用户数据保存文件
     └──dict/
         ├── IELTS.json     # IELTS词库数据
-        ├── TOEFL.json
+        └── TOEFL.json
 
 ```
 ## 🛠️ 技术栈
