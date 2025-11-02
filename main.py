@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
 
         self.bar=QStatusBar()
         self.setStatusBar(self.bar)
-        self.bar.showMessage('English Learning Needs Patience')
+        self.bar.showMessage(f'English Learning Needs Patience \n 当前学习的字典为：{dic}')
 
         self.create_menus()#创建工具栏，优化搜索与学习之间的显示
 
