@@ -231,12 +231,16 @@ class Data:
                 if index in lis:
                     fun()
                 return index
-        index=fun(lis)
-        self.series=self.search_coordinate(index)
-        if not get_word:
-            return self.series
+        if self.finished(len(lis)):
+            index=fun(lis)
+            self.series=self.search_coordinate(index)
+            if not get_word:
+                return self.series
+            else:
+                return self.series['word']
         else:
-            return self.series['word']
+            self.series=pd.Series()
+            return self.series
     
     def get_details(self,content)->str:
         '''在handle的基础上增加了‘all’的输出'''
@@ -254,5 +258,9 @@ class Data:
         else:
             return False
      
-
+    def finished(self,length):
+        if length == len(self.df):
+            return False
+        else:
+            return True
 

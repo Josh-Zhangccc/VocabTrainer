@@ -3,10 +3,10 @@ import pandas as pd
 import os
 import random
 from data_manager import *
-from utils import df
+#from utils import df
 from json_utils import *
 from config import FILES
-
+'''
 Df=Data(df)
 def test_df():
     E=[]
@@ -35,7 +35,7 @@ def test_df():
             return '正常运行'
         else:
             return f'出错如下：{E}'
-        
+        '''
 def test_json_manager():
     AM=AccountsManager()
 
@@ -83,6 +83,9 @@ def test_json_manager():
             
 
 if __name__=='__main__':
-    print(test_df())
-    print(df.head())
-    test_json_manager()
+ #   print(test_df())
+ #   print(df.head())
+ #  test_json_manager()
+    AM=AccountsManager()
+    AM.clear_account('test_user',"123456")
+    AM.save_json()

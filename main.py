@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow,
                                QStatusBar)
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtCore import Qt
-
+from config import DIC
 
 
 class MainWindow(QMainWindow):
@@ -121,9 +121,15 @@ class MainWindow(QMainWindow):
             self.label_details.setText(self.details)
 
     def switch(self,dic:str):
-        if dic in ['IELTS','TOEFL']:
-            self.UM=UserManager(self.user_id,dic)
-            self.df=Data(open(dic))
+        if dic in DIC:
+            if dic !=self.UM.dic_info():
+                self.UM=UserManager(self.user_id,dic)
+                self.df=Data(open(dic))
+
+                self.label_details.setText("")
+                self.label_word.setText("")
+            else:
+                QMessageBox.information(self,'SWITCH FAILED',f'已经在{dic}目录！')
 
 
     def create_menus(self):

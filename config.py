@@ -37,3 +37,4 @@ user_stru={ 'dic':{},
             'star_words':[],
             'high_focus_words':[],
 '''
+DIC=['IELTS','TOEFL']

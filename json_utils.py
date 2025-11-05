@@ -38,6 +38,7 @@ class JsonManager:
             os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
             with open(self.file_path, 'w', encoding='utf-8') as f:
                 json.dump(self.data, f, ensure_ascii=False, indent=2)
+                print('保存成功！')
             return True
         except Exception as e:
             print(f"保存失败: {e}")
@@ -69,16 +70,21 @@ class AccountsManager(JsonManager):
     def learn_one_new_word(self,user_id:str) -> None:
         if user_id in self.data['users']:
             self.data['users'][user_id]['learned_words']+=1
-
         
     def del_account(self,user_id:str,user_key:str) -> bool:
-        if user_id in self.data['users']:
-            if user_key==self.data['users'][user_id]['key']:
+        if self.login(user_id,user_key):
                 del(self.data['users'][user_id])
                 return False
         else:
             return True
-    
+    def clear_account(self,user_id:str,user_key:str):
+        if self.login(user_id,user_key):
+            self.data['learned_words']=0
+            UM=UserManager(user_id,DIC[0])
+            UM.clear_all()
+            UM.save_json()
+
+
     def check_user(self,user_id):
         '''检索用户是否存在，符合返回True,否则返回False
         '''
@@ -117,11 +123,22 @@ class UserManager(JsonManager):
                                             'mastered_words':[],
                                             'star_words':[],
                                             'high_focus_words':[]
-                                                }
+                                            }
         self.info=self.data['dic'][self.dic]
         self.user_id=user_id
         self.save_json()
+
+    def clear(self):
+        self.data['dic'][self.dic]={
+                                    'learned_words':{},
+                                    'mastered_words':[],
+                                    'star_words':[],
+                                    'high_focus_words':[]
+                                    }
         
+    def clear_all(self):
+        self.data=self.create_json()
+
     def indiviualize(self,daily_word:int,frequency:int,review_mode:str,background:str) ->None:
         if (daily_word>0,
             frequency>0,
@@ -135,9 +152,9 @@ class UserManager(JsonManager):
             p['review_mode']=review_mode
             print(self.data['preferences'])
 
-    def choose_dic(self):
-        pass
-
+    def dic_info(self):
+        return self.dic #str
+    
     def record_word(self, wordrank: int, rank: int) -> None:
         """用途：记录已经学习过的单词,同时记录:学习的次数,
                                             第一次和最后一次学习的时间,
