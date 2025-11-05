@@ -7,6 +7,7 @@ from datetime import datetime
 from file_utils import test_form,open_fuc
 from config import *
 from data_manager import Data
+import pandas as pd
 
 class JsonManager:
     """初始化储存用户信息的JSON文件。
@@ -63,6 +64,7 @@ class AccountsManager(JsonManager):
                                           'key':f'{user_key}',
                                           'learned_words':0
                                         }
+            self.data['count']+=1
             return False
         else:
             return True
@@ -77,13 +79,6 @@ class AccountsManager(JsonManager):
                 return False
         else:
             return True
-    def clear_account(self,user_id:str,user_key:str):
-        if self.login(user_id,user_key):
-            self.data['learned_words']=0
-            UM=UserManager(user_id,DIC[0])
-            UM.clear_all()
-            UM.save_json()
-
 
     def check_user(self,user_id):
         '''检索用户是否存在，符合返回True,否则返回False
@@ -114,7 +109,7 @@ class UserManager(JsonManager):
     输出用户具体信息的方法
     '''
     def __init__(self,user_id:str,dic:str):
-        user_data_path = os.path.join(current_dir, 'data',f'{user_id}.json')
+        user_data_path = os.path.join(current_dir, 'data','users',f'{user_id}.json')
         self.dic=dic
         super().__init__(user_data_path,user_stru)
         if dic not in self.data['dic']:
@@ -136,8 +131,9 @@ class UserManager(JsonManager):
                                     'high_focus_words':[]
                                     }
         
-    def clear_all(self):
-        self.data=self.create_json()
+    def create_self_dic(self):
+        AM=AccountsManager()
+        self.data['dic_info'].append(AM.data['count'])
 
     def indiviualize(self,daily_word:int,frequency:int,review_mode:str,background:str) ->None:
         if (daily_word>0,

@@ -52,7 +52,6 @@ def load_data(file_path,form):
     '''加载文件并转换文件格式'''
     d=open_fuc(test_form(file_path),file_path)
     df_ori = pd.json_normalize(d)
-    print(df_ori.iloc[0])
     match form:
         case 'IELTS':
             df=df_ori.iloc[:,[0,1,5,13,16,21,23]] 
@@ -64,6 +63,10 @@ def load_data(file_path,form):
         case 'TOEFL':
             df=df_ori.iloc[:,[0,1,5,8,13,16,19]]#0wordRank ，1headWord  5sentences,8synos，13phar,16rel,19trans
             df.columns=['wordrank','word','sentences','synos','phrases','rels','trans']
+
+        case 'personal':
+            df=df_ori
+            df.columns=['wordrank','word','sentences','synos','phrases','rels','trans'] 
 
     df=df[['wordrank','word','sentences','synos','phrases','rels','trans']]
     df['firstletter']=df['word'].str[0]

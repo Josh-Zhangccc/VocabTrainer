@@ -120,11 +120,11 @@ class RegisterWindow(QWidget):
 
         self.input_user_key=QLineEdit()
         self.input_user_key.setPlaceholderText('请输入您的密码：')
-        #self.input_user_key.setEchoMode(QLineEdit.Password)
+        self.input_user_key.setEchoMode(QLineEdit.Password)
 
         self.input_confirm_key=QLineEdit()
         self.input_confirm_key.setPlaceholderText('请确认您的密码：')
-        #self.input_confirm_key.setEchoMode(QLineEdit.Password)
+        self.input_confirm_key.setEchoMode(QLineEdit.Password)
 
         self.button_register=QPushButton()
         self.button_register.setText('注册')

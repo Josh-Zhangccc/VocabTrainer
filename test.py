@@ -86,6 +86,4 @@ if __name__=='__main__':
  #   print(test_df())
  #   print(df.head())
  #  test_json_manager()
-    AM=AccountsManager()
-    AM.clear_account('test_user',"123456")
-    AM.save_json()
+    UM=UserManager('test_user','IELTS')

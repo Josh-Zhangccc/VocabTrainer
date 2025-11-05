@@ -19,6 +19,7 @@ FILES={'DICT':{'IELTS':os.path.join(current_dir,'data','dict','IELTS.json'),
 glob_stru={
             'users':{},
             'version':2.0,
+            'count':0,
             'created_time':datetime.now().isoformat()[0:16]
         }
 ''' ['users'][user_id]={'name':f'{user_id}',
@@ -28,7 +29,8 @@ glob_stru={
 
 user_stru={ 'dic':{},
             'preferences':preferences,
-            'login_time':[datetime.now().isoformat()[0:16]]
+            'login_time':[datetime.now().isoformat()[0:16]],
+            'dic_info':[]#个性化单词列表，这里仅提供一个编号
         }
 
 

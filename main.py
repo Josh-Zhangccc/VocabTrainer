@@ -17,6 +17,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.user_id=user_id
         self.UM=UserManager(self.user_id,dic)
+        self.UM.time_record()
+        self.UM.save_json()
         df=open(dic)
         self.df=Data(df)
         self.series=None
@@ -128,6 +130,8 @@ class MainWindow(QMainWindow):
 
                 self.label_details.setText("")
                 self.label_word.setText("")
+                self.bar.showMessage(f'English Learning Needs Patience \n 当前学习的字典为：{dic}')
+
             else:
                 QMessageBox.information(self,'SWITCH FAILED',f'已经在{dic}目录！')
 
