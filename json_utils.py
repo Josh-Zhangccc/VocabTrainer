@@ -131,10 +131,6 @@ class UserManager(JsonManager):
                                     'high_focus_words':[]
                                     }
         
-    def create_self_dic(self):
-        AM=AccountsManager()
-        self.data['dic_info'].append(AM.data['count'])
-
     def indiviualize(self,daily_word:int,frequency:int,review_mode:str,background:str) ->None:
         if (daily_word>0,
             frequency>0,
@@ -249,8 +245,77 @@ class UserManager(JsonManager):
                 return user_info['high_focus_words']
             case _:
                 return []
+            
+    def create_self_dic(self):
+        AM=AccountsManager()
+        self.data['dic_info'].append(AM.data['count'])
 
-    def learn(self) -> str:
-        words=self.output('learned') #list
 
+class PersonalDict(JsonManager):
+    def __init__(self, num):
+        file_path= os.path.join(current_dir, 'data','personal_dic',f'{num}.json')    
+        self.num=num
+        super().__init__(file_path,[])#初始化的data结构为[]
+        self.count=self.data[-1]['wordRank']
+
+    def check(self,word:str) -> bool:
+        '''在个性化字典里进行检索，如果已存在该单词或与其相关的单词重复，则返回False
+            存在：False
+            不存在：True
+            O(n^2)
+        '''
+        res=True #True代表没有任何的重复
+        for i in self.data:
+            if word !=i["headWord"]:
+
+                try:
+                    if any(word == j["words"][0]["hwd"] for j in i["content"]["word"]["content"]["relWord"]["rels"]):
+                        res=False
+
+                except KeyError:
+                    continue
+
+                finally:
+                    print('检索完成！')
+
+            else:
+                res=False
+
+            return res
+    
+    def wordrank(self):
+        '''介于数组的特性，增添和删除导致的坐标改变会较为麻烦
+        故wordrank函数会搜索
+        '''
+        count=0
+        for i in self.data:
+            count+=1
+            if int(i['wordRank'])!=count:
+                break
+            return count
+
+    def add(self,word:str):
+        '''生成一个单词的全部结构,同时自动修正单词的编码并清空有关内容
+            但是不提供任何的检索功能，需要额外配合check函数进行判断
+            原因：如果内嵌，则check在后续的各个函数中会被重复调用，消耗算力
+            O(1)'''
+        if self.count == 1:
+            self.data[0]["headword"] = word
+        else:
+            wordrank=self.wordrank()
+            added_word=word_stru
+            added_word["wordRank"]=wordrank
+            added_word["headWord"]=word
+            added_word["word"]["wordHead"]=word
+            added_word["bookId"]=self.num
+            self.count+=1       #总单词数改变
+            self.data.append()
+
+    def delete(self,word:str):
+        '''查找有关单词，直接删除全部信息
+        '''
+        for i in self.data:
+            if i["headWord"] == word:
+                self.data.remove(i)
+                self.count-=1   #总单词数改变
 

@@ -65,7 +65,7 @@ def load_data(file_path,form):
             df.columns=['wordrank','word','sentences','synos','phrases','rels','trans']
 
         case 'personal':
-            df=df_ori
+            df=df_ori.iloc[:,[0,1,5,13,16,21,23]] 
             df.columns=['wordrank','word','sentences','synos','phrases','rels','trans'] 
 
     df=df[['wordrank','word','sentences','synos','phrases','rels','trans']]
