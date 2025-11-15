@@ -135,6 +135,10 @@ class MainWindow(QMainWindow):
             else:
                 QMessageBox.information(self,'SWITCH FAILED',f'已经在{dic}目录！')
 
+    def add_self_dic(self):
+        self.UM.create_self_dic()
+    def open_self_dic(self):
+        pass
 
     def create_menus(self):
         menu_bar=self.menuBar()
@@ -159,6 +163,19 @@ class MainWindow(QMainWindow):
         action_TOEFL.triggered.connect(lambda: self.switch('TOEFL'))
 
         dics.addActions([action_IELTS,action_TOEFL])
+
+        self_dic = menu_bar.addMenu('个人字典')
+
+        add_self_dic = QAction('添加个人字典',self)
+        add_self_dic.triggered.connect(self.add_self_dic)
+
+        open_self_dic = QAction("打开个人词典",self)
+        open_self_dic.triggered.connect(self.open_self_dic)
+
+        self_dic.addActions([add_self_dic,open_self_dic])
+
+
+        
 if __name__=='__main__':
     app=QApplication(sys.argv)
     window=MainWindow('test_user','IELTS')

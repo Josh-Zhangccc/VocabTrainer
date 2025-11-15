@@ -86,4 +86,6 @@ if __name__=='__main__':
  #   print(test_df())
  #   print(df.head())
  #  test_json_manager()
-    PD=PersonalDict(FILES['DICT']['IELTS'])
+    UM = UserManager("test_user","IELTS")
+    UM.create_self_dic()
+    UM.save_json()

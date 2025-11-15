@@ -20,6 +20,7 @@ glob_stru={
             'users':{},                                         #各用户信息
             'version':2.0,                                      #版本
             'count':0,                                          #总用户数
+            'dic_count':0,
             'created_time':datetime.now().isoformat()[0:16]     #创建时间
         }
 ''' ['users'][user_id]={'name':f'{user_id}',

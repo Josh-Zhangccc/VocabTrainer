@@ -69,6 +69,12 @@ class AccountsManager(JsonManager):
         else:
             return True
         
+    def create_new_dic(self):
+        PD = PersonalDict(self.data['dic_count'])
+        print(self.data['dic_count'])
+        self.data['dic_count']+=1
+        PD.save_json()
+        
     def learn_one_new_word(self,user_id:str) -> None:
         if user_id in self.data['users']:
             self.data['users'][user_id]['learned_words']+=1
@@ -249,14 +255,19 @@ class UserManager(JsonManager):
     def create_self_dic(self):
         AM=AccountsManager()
         self.data['dic_info'].append(AM.data['count'])
+        AM.create_new_dic()
+        AM.save_json()
 
 
 class PersonalDict(JsonManager):
+    '''功能：创建个人词典
+    添加/删除单词及其信息
+    检索单词是否存在'''
     def __init__(self, num):
         file_path= os.path.join(current_dir, 'data','personal_dic',f'{num}.json')    
         self.num=num
         super().__init__(file_path,[])#初始化的data结构为[]
-        self.count=self.data[-1]['wordRank']
+        self.count=len(self.data)
 
     def check(self,word:str) -> bool:
         '''在个性化字典里进行检索，如果已存在该单词或与其相关的单词重复，则返回False
@@ -283,33 +294,19 @@ class PersonalDict(JsonManager):
 
             return res
     
-    def wordrank(self):
-        '''介于数组的特性，增添和删除导致的坐标改变会较为麻烦
-        故wordrank函数会搜索
-        '''
-        count=0
-        for i in self.data:
-            count+=1
-            if int(i['wordRank'])!=count:
-                break
-            return count
-
     def add(self,word:str):
         '''生成一个单词的全部结构,同时自动修正单词的编码并清空有关内容
             但是不提供任何的检索功能，需要额外配合check函数进行判断
             原因：如果内嵌，则check在后续的各个函数中会被重复调用，消耗算力
             O(1)'''
-        if self.count == 1:
-            self.data[0]["headword"] = word
-        else:
-            wordrank=self.wordrank()
-            added_word=word_stru
-            added_word["wordRank"]=wordrank
-            added_word["headWord"]=word
-            added_word["word"]["wordHead"]=word
-            added_word["bookId"]=self.num
-            self.count+=1       #总单词数改变
-            self.data.append()
+        self.count+=1       #总单词数改变        
+        wordrank=self.count
+        added_word=word_stru
+        added_word["wordRank"]=wordrank
+        added_word["headWord"]=word
+        added_word["content"]["word"]["wordHead"] = word
+        added_word["bookId"]=self.num
+        self.data.append(added_word)
 
     def delete(self,word:str):
         '''查找有关单词，直接删除全部信息
@@ -319,3 +316,6 @@ class PersonalDict(JsonManager):
                 self.data.remove(i)
                 self.count-=1   #总单词数改变
 
+    def update(self):
+        for word,to_change_index in (range(len(self.data)),self.data):
+            word["wordRank"] = to_change_index

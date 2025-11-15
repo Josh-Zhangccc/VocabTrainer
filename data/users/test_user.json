@@ -1,0 +1,21 @@
+{
+  "dic": {
+    "IELTS": {
+      "learned_words": {},
+      "mastered_words": [],
+      "star_words": [],
+      "high_focus_words": []
+    }
+  },
+  "preferences": {
+    "daily_words": 10,
+    "background": "dark",
+    "frequency": 1,
+    "review_mode": "M"
+  },
+  "login_time": [
+    "2025-11-15T17:21",
+    "2025-11-15T17:22"
+  ],
+  "dic_info": []
+}
