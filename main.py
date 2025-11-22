@@ -1,20 +1,32 @@
 import pandas as pd
+
 from  data_manager import *
+
 from utils import open
-from json_utils import UserManager
+
+from UsersDataManagers import AccountsManager,UserManager,PersonalDictManager
+
 import sys
+
 from PySide6.QtWidgets import (QApplication, QMainWindow, 
+
                                QPushButton, QLabel, QVBoxLayout, 
+
                                QLineEdit,QWidget,QMessageBox,
+
                                QStatusBar)
+
 from PySide6.QtGui import QAction, QIcon
+
 from PySide6.QtCore import Qt
+
 from config import DIC
 
 
 class MainWindow(QMainWindow):
     def __init__(self,user_id:str,dic:str):
         super().__init__()
+        self.AM = AccountsManager()
         self.user_id=user_id
         self.UM=UserManager(self.user_id,dic)
         self.UM.time_record()
@@ -136,7 +148,8 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(self,'SWITCH FAILED',f'已经在{dic}目录！')
 
     def add_self_dic(self):
-        self.UM.create_self_dic()
+        PDM = PersonalDictManager(self.user_id,self.AM.dic_counts)
+        PDM.save_json()
     def open_self_dic(self):
         pass
 
