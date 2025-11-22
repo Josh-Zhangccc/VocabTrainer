@@ -10,12 +10,12 @@ class PersonalDictManager(JsonManager):
     def __init__(self,user_id,num):
         self.num = num
         file_path= os.path.join(config.current_dir,'data','users',f'{user_id}',f'{user_id}-{num}.json') 
-        
+
         if  not os.path.exists(file_path):
             JMaccounts = JsonManager(os.path.join(config.current_dir,'data','accounts.json'))
             JMaccounts.data['dic_counts'] +=1
             JMaccounts.save_json()
-            JMuser = JsonManager(os.path.join(config.current_dir,'data','users',f'{user_id}'))
+            JMuser = JsonManager(os.path.join(config.current_dir,'data','users',f'{user_id}',f'{user_id}.json'))
             JMuser.data['dic_info'].append(num)
             JMuser.save_json()
 
